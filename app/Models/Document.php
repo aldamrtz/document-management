@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Document extends Model
+{
+    protected $fillable = [
+        'category_id',
+        'title',
+        'document_number',
+        'description',
+        'file_path',
+        'status',
+    ];
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+    }
+}
