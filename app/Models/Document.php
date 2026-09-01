@@ -11,6 +11,7 @@ class Document extends Model
         'category_id',
         'title',
         'document_number',
+        'version',
         'description',
         'file_path',
         'status',
