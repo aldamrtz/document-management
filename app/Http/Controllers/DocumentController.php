@@ -18,6 +18,50 @@ class DocumentController extends Controller
         return view('documents.index', compact('documents'));
     }
 
+    public function export()
+    {
+        $documents = Document::with('category')->get();
+
+        $filename = 'documents-' . date('Y-m-d-H-i-s') . '.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+
+        $columns = [
+            'ID',
+            'Category',
+            'Title',
+            'Document Number',
+            'Version',
+            'Status',
+            'Description',
+        ];
+
+        $callback = function () use ($documents, $columns) {
+            $file = fopen('php://output', 'w');
+
+            fputcsv($file, $columns);
+
+            foreach ($documents as $document) {
+                fputcsv($file, [
+                    $document->id,
+                    $document->category->name,
+                    $document->title,
+                    $document->document_number,
+                    $document->version,
+                    $document->status,
+                    $document->description,
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

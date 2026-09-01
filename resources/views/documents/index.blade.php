@@ -15,6 +15,10 @@
         Add Document
     </a>
 
+    <a href="{{ route('documents.export') }}">
+        Export CSV
+    </a>
+
     <br><br>
 
     @foreach ($documents as $document)
