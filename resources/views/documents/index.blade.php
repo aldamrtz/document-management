@@ -51,6 +51,14 @@
             Status: {{ $document->status }}
         </p>
 
+        @if ($document->file_path)
+        <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank">
+            View File
+        </a>
+        @endif
+
+        <br>
+
         <a href="{{ route('documents.edit', $document->id) }}">
             Edit
         </a>

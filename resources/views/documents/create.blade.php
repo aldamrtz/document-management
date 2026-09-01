@@ -11,7 +11,7 @@
 
     <h1>Create Document</h1>
 
-    <form action="{{ route('documents.store') }}" method="POST">
+    <form action="{{ route('documents.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div>
@@ -58,6 +58,13 @@
         <div>
             <label for="description">Description</label>
             <textarea id="description" name="description"></textarea>
+        </div>
+
+        <br>
+
+        <div>
+            <label for="file">Document File</label>
+            <input type="file" id="file" name="file" accept=".pdf">
         </div>
 
         <br>

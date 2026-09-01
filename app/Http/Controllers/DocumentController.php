@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Document;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -110,10 +111,17 @@ class DocumentController extends Controller
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
             'document_number' => 'nullable|string|max:255',
-            'version' => 'required|string|max:50',
+            'version' => 'required|string|max:20',
             'description' => 'nullable|string',
             'status' => 'required|in:draft,published,archived',
+            'file' => 'nullable|file|mimes:pdf|max:10240',
         ]);
+
+        if ($request->hasFile('file')) {
+            $validated['file_path'] = $request->file('file')->store('documents', 'public');
+        }
+
+        unset($validated['file']);
 
         Document::create($validated);
 
@@ -152,10 +160,21 @@ class DocumentController extends Controller
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
             'document_number' => 'nullable|string|max:255',
-            'version' => 'required|string|max:50',
+            'version' => 'required|string|max:20',
             'description' => 'nullable|string',
             'status' => 'required|in:draft,published,archived',
+            'file' => 'nullable|file|mimes:pdf|max:10240',
         ]);
+
+        if ($request->hasFile('file')) {
+            if ($document->file_path) {
+                Storage::disk('public')->delete($document->file_path);
+            }
+
+            $validated['file_path'] = $request->file('file')->store('documents', 'public');
+        }
+
+        unset($validated['file']);
 
         $document->update($validated);
 
@@ -171,10 +190,14 @@ class DocumentController extends Controller
     {
         $document = Document::findOrFail($id);
 
+        if ($document->file_path) {
+            Storage::disk('public')->delete($document->file_path);
+        }
+
         $document->delete();
 
         return redirect()
             ->route('documents.index')
-            ->with('success', 'Document deleted successfully.');
+            ->with('success', 'Document berhasil dihapus.');
     }
 }

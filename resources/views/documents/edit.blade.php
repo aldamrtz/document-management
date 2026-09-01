@@ -11,7 +11,7 @@
 
     <h1>Edit Document</h1>
 
-    <form action="{{ route('documents.update', $document->id) }}" method="POST">
+    <form action="{{ route('documents.update', $document->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -70,6 +70,13 @@
             <textarea
                 id="description"
                 name="description">{{ $document->description }}</textarea>
+        </div>
+
+        <br>
+
+        <div>
+            <label for="file">Replace Document File</label>
+            <input type="file" id="file" name="file" accept=".pdf">
         </div>
 
         <br>
