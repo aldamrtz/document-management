@@ -62,6 +62,35 @@ class DocumentController extends Controller
         return response()->stream($callback, 200, $headers);
     }
 
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:csv,txt|max:2048',
+        ]);
+
+        $file = $request->file('file');
+        $handle = fopen($file->getRealPath(), 'r');
+
+        $header = fgetcsv($handle);
+
+        while (($row = fgetcsv($handle)) !== false) {
+            Document::create([
+                'category_id' => Category::where('name', $row[1])->value('id'),
+                'title' => $row[2],
+                'document_number' => $row[3],
+                'version' => $row[4],
+                'status' => $row[5],
+                'description' => $row[6],
+            ]);
+        }
+
+        fclose($handle);
+
+        return redirect()
+            ->route('documents.index')
+            ->with('success', 'Document berhasil diimport.');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

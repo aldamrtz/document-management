@@ -19,6 +19,14 @@
         Export CSV
     </a>
 
+    <form action="{{ route('documents.import') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+
+        <input type="file" name="file" accept=".csv" required>
+
+        <button type="submit">Import CSV</button>
+    </form>
+
     <br><br>
 
     @foreach ($documents as $document)
