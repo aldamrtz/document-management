@@ -32,6 +32,10 @@
         </p>
 
         <p>
+            Version: {{ $document->version }}
+        </p>
+
+        <p>
             Status: {{ $document->status }}
         </p>
 

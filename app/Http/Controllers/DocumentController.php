@@ -37,6 +37,7 @@ class DocumentController extends Controller
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
             'document_number' => 'nullable|string|max:255',
+            'version' => 'required|string|max:50',
             'description' => 'nullable|string',
             'status' => 'required|in:draft,published,archived',
         ]);
@@ -78,6 +79,7 @@ class DocumentController extends Controller
             'category_id' => 'required|exists:categories,id',
             'title' => 'required|string|max:255',
             'document_number' => 'nullable|string|max:255',
+            'version' => 'required|string|max:50',
             'description' => 'nullable|string',
             'status' => 'required|in:draft,published,archived',
         ]);

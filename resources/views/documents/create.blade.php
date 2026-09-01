@@ -44,6 +44,18 @@
         <br>
 
         <div>
+            <label for="version">Version</label>
+            <input
+                type="text"
+                id="version"
+                name="version"
+                value="{{ old('version', '1.0') }}"
+                required>
+        </div>
+
+        <br>
+
+        <div>
             <label for="description">Description</label>
             <textarea id="description" name="description"></textarea>
         </div>
