@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documents</title>
+    <title>{{ __('documents.title') }}</title>
 </head>
 
 <body>
 
-    <h1>Document List</h1>
+    <h1>{{ __('documents.title') }}</h1>
 
     <a href="{{ route('documents.create') }}">
-        Add Document
+        {{ __('documents.add') }}
     </a>
 
     <a href="{{ route('documents.export') }}">
-        Export CSV
+        {{ __('documents.export') }}
     </a>
 
     <form action="{{ route('documents.import') }}" method="POST" enctype="multipart/form-data">
@@ -24,7 +24,7 @@
 
         <input type="file" name="file" accept=".csv" required>
 
-        <button type="submit">Import CSV</button>
+        <button type="submit">{{ __('documents.import') }}</button>
     </form>
 
     <br><br>
@@ -36,39 +36,42 @@
         <h2>{{ $document->title }}</h2>
 
         <p>
-            Category: {{ $document->category->name }}
+            {{ __('documents.category') }}: {{ $document->category->name }}
         </p>
 
         <p>
-            Document Number: {{ $document->document_number }}
+            {{ __('documents.document_number') }}: {{ $document->document_number }}
         </p>
 
         <p>
-            Version: {{ $document->version }}
+            {{ __('documents.version') }}: {{ $document->version }}
         </p>
 
         <p>
-            Status: {{ $document->status }}
+            {{ __('documents.status') }}: {{ __('documents.' . $document->status) }}
         </p>
 
         @if ($document->file_path)
         <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank">
-            View File
+            {{ __('documents.view') }}
         </a>
         @endif
 
         <br>
 
         <a href="{{ route('documents.edit', $document->id) }}">
-            Edit
+            {{ __('documents.edit') }}
         </a>
 
         <form action="{{ route('documents.destroy', $document->id) }}" method="POST" style="display:inline;">
             @csrf
             @method('DELETE')
 
-            <button type="submit" onclick="return confirm('Are you sure you want to delete this document?')">
-                Delete
+            <button
+                type="submit"
+                data-confirm="{{ __('documents.delete_confirmation') }}"
+                onclick="return confirm(this.dataset.confirm);">
+                {{ __('documents.delete') }}
             </button>
         </form>
 

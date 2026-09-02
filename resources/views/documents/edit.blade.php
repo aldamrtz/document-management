@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Document</title>
+    <title>{{ __('documents.edit') }}</title>
 </head>
 
 <body>
 
-    <h1>Edit Document</h1>
+    <h1>{{ __('documents.edit') }}</h1>
 
     <form action="{{ route('documents.update', $document->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
         <div>
-            <label for="title">Title</label>
+            <label for="title">{{ __('documents.field_title') }}</label>
             <input
                 type="text"
                 id="title"
@@ -28,7 +28,8 @@
         <br>
 
         <div>
-            <label for="category_id">Category</label>
+            <label for="category_id">{{ __('documents.category') }}</label>
+
             <select id="category_id" name="category_id" required>
                 @foreach ($categories as $category)
                 <option
@@ -43,7 +44,10 @@
         <br>
 
         <div>
-            <label for="document_number">Document Number</label>
+            <label for="document_number">
+                {{ __('documents.document_number') }}
+            </label>
+
             <input
                 type="text"
                 id="document_number"
@@ -54,7 +58,8 @@
         <br>
 
         <div>
-            <label for="version">Version</label>
+            <label for="version">{{ __('documents.version') }}</label>
+
             <input
                 type="text"
                 id="version"
@@ -66,7 +71,10 @@
         <br>
 
         <div>
-            <label for="description">Description</label>
+            <label for="description">
+                {{ __('documents.description') }}
+            </label>
+
             <textarea
                 id="description"
                 name="description">{{ $document->description }}</textarea>
@@ -75,37 +83,53 @@
         <br>
 
         <div>
-            <label for="file">Replace Document File</label>
-            <input type="file" id="file" name="file" accept=".pdf">
+            <label for="file">{{ __('documents.file') }}</label>
+
+            <input
+                type="file"
+                id="file"
+                name="file"
+                accept=".pdf">
         </div>
 
         <br>
 
         <div>
-            <label for="status">Status</label>
+            <label for="status">{{ __('documents.status') }}</label>
+
             <select id="status" name="status" required>
-                <option value="draft" {{ $document->status === 'draft' ? 'selected' : '' }}>
-                    Draft
+                <option
+                    value="draft"
+                    {{ $document->status === 'draft' ? 'selected' : '' }}>
+                    {{ __('documents.draft') }}
                 </option>
 
-                <option value="published" {{ $document->status === 'published' ? 'selected' : '' }}>
-                    Published
+                <option
+                    value="published"
+                    {{ $document->status === 'published' ? 'selected' : '' }}>
+                    {{ __('documents.published') }}
                 </option>
 
-                <option value="archived" {{ $document->status === 'archived' ? 'selected' : '' }}>
-                    Archived
+                <option
+                    value="archived"
+                    {{ $document->status === 'archived' ? 'selected' : '' }}>
+                    {{ __('documents.archived') }}
                 </option>
             </select>
         </div>
 
         <br>
 
-        <button type="submit">Update Document</button>
+        <button type="submit">
+            {{ __('documents.update') }}
+        </button>
     </form>
 
     <br>
 
-    <a href="{{ route('documents.index') }}">Back to Documents</a>
+    <a href="{{ route('documents.index') }}">
+        {{ __('documents.back') }}
+    </a>
 
 </body>
 

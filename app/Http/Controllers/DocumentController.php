@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Document;
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class DocumentController extends Controller
 {
@@ -70,7 +71,13 @@ class DocumentController extends Controller
         ]);
 
         $file = $request->file('file');
-        $handle = fopen($file->getRealPath(), 'r');
+        $handle = fopen($file->getPathname(), 'r');
+
+        if ($handle === false) {
+            return back()
+                ->withErrors(['file' => 'File CSV gagal dibaca.'])
+                ->withInput();
+        }
 
         $header = fgetcsv($handle);
 
@@ -118,7 +125,22 @@ class DocumentController extends Controller
         ]);
 
         if ($request->hasFile('file')) {
-            $validated['file_path'] = $request->file('file')->store('documents', 'public');
+            $file = $request->file('file');
+
+            $filename = Str::uuid() . '.pdf';
+            $path = 'documents/' . $filename;
+
+            $contents = file_get_contents($file->getPathname());
+
+            if ($contents === false) {
+                return back()
+                    ->withErrors(['file' => 'File PDF gagal dibaca.'])
+                    ->withInput();
+            }
+
+            Storage::disk('public')->put($path, $contents);
+
+            $validated['file_path'] = $path;
         }
 
         unset($validated['file']);
@@ -167,11 +189,26 @@ class DocumentController extends Controller
         ]);
 
         if ($request->hasFile('file')) {
+            $file = $request->file('file');
+
+            $filename = Str::uuid() . '.pdf';
+            $path = 'documents/' . $filename;
+
+            $contents = file_get_contents($file->getPathname());
+
+            if ($contents === false) {
+                return back()
+                    ->withErrors(['file' => 'File PDF gagal dibaca.'])
+                    ->withInput();
+            }
+
+            Storage::disk('public')->put($path, $contents);
+
             if ($document->file_path) {
                 Storage::disk('public')->delete($document->file_path);
             }
 
-            $validated['file_path'] = $request->file('file')->store('documents', 'public');
+            $validated['file_path'] = $path;
         }
 
         unset($validated['file']);

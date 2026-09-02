@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'title' => 'Dokumen',
+    'field_title' => 'Judul',
+    'add' => 'Tambah Dokumen',
+    'edit' => 'Edit Dokumen',
+    'delete' => 'Hapus',
+    'save' => 'Simpan Dokumen',
+    'update' => 'Perbarui Dokumen',
+    'back' => 'Kembali ke Dokumen',
+    'view' => 'Lihat File',
+    'document_number' => 'Nomor Dokumen',
+    'select_category' => 'Pilih Kategori',
+    'category' => 'Kategori',
+    'version' => 'Versi',
+    'description' => 'Deskripsi',
+    'status' => 'Status',
+    'draft' => 'Draft',
+    'published' => 'Diterbitkan',
+    'archived' => 'Diarsipkan',
+    'export' => 'Ekspor CSV',
+    'import' => 'Impor CSV',
+    'delete_confirmation' => 'Apakah Anda yakin ingin menghapus dokumen ini?',
+    'create_title' => 'Tambah Dokumen',
+    'file' => 'File',
+];

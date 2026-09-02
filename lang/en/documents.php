@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'title' => 'Documents',
+    'field_title' => 'Title',
+    'add' => 'Add Document',
+    'edit' => 'Edit Document',
+    'delete' => 'Delete',
+    'save' => 'Save Document',
+    'update' => 'Update Document',
+    'back' => 'Back to Documents',
+    'view' => 'View File',
+    'document_number' => 'Document Number',
+    'select_category' => 'Select Category',
+    'category' => 'Category',
+    'version' => 'Version',
+    'description' => 'Description',
+    'status' => 'Status',
+    'draft' => 'Draft',
+    'published' => 'Published',
+    'archived' => 'Archived',
+    'export' => 'Export CSV',
+    'import' => 'Import CSV',
+    'delete_confirmation' => 'Are you sure you want to delete this document?',
+    'create_title' => 'Create Document',
+    'file' => 'File',
+];
