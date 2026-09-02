@@ -20,6 +20,23 @@ class DocumentController extends Controller
         return view('documents.index', compact('documents'));
     }
 
+    public function viewFile(string $id)
+    {
+        $document = Document::findOrFail($id);
+
+        if (!$document->file_path) {
+            abort(404, 'File dokumen tidak ditemukan.');
+        }
+
+        if (!Storage::disk('nas')->exists($document->file_path)) {
+            abort(404, 'File dokumen tidak ditemukan di NAS.');
+        }
+
+        return response()->file(
+            Storage::disk('nas')->path($document->file_path)
+        );
+    }
+
     public function export()
     {
         $documents = Document::with('category')->get();
@@ -126,7 +143,6 @@ class DocumentController extends Controller
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-
             $filename = Str::uuid() . '.pdf';
             $path = 'documents/' . $filename;
 
@@ -138,7 +154,7 @@ class DocumentController extends Controller
                     ->withInput();
             }
 
-            Storage::disk('public')->put($path, $contents);
+            Storage::disk('nas')->put($path, $contents);
 
             $validated['file_path'] = $path;
         }
@@ -190,7 +206,6 @@ class DocumentController extends Controller
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-
             $filename = Str::uuid() . '.pdf';
             $path = 'documents/' . $filename;
 
@@ -202,10 +217,10 @@ class DocumentController extends Controller
                     ->withInput();
             }
 
-            Storage::disk('public')->put($path, $contents);
+            Storage::disk('nas')->put($path, $contents);
 
             if ($document->file_path) {
-                Storage::disk('public')->delete($document->file_path);
+                Storage::disk('nas')->delete($document->file_path);
             }
 
             $validated['file_path'] = $path;
@@ -228,7 +243,7 @@ class DocumentController extends Controller
         $document = Document::findOrFail($id);
 
         if ($document->file_path) {
-            Storage::disk('public')->delete($document->file_path);
+            Storage::disk('nas')->delete($document->file_path);
         }
 
         $document->delete();

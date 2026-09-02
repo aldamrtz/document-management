@@ -13,6 +13,9 @@ Route::get('documents-export', [DocumentController::class, 'export'])
 Route::post('documents-import', [DocumentController::class, 'import'])
     ->name('documents.import');
 
+Route::get('/documents/{id}/file', [DocumentController::class, 'viewFile'])
+    ->name('documents.file');
+
 Route::resource('documents', DocumentController::class);
 
 Route::get('/language/{locale}', function (string $locale) {

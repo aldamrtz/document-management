@@ -52,7 +52,7 @@
         </p>
 
         @if ($document->file_path)
-        <a href="{{ asset('storage/' . $document->file_path) }}" target="_blank">
+        <a href="{{ route('documents.file', $document->id) }}" target="_blank">
             {{ __('documents.view') }}
         </a>
         @endif
